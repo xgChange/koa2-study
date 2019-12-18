@@ -9,8 +9,10 @@
   "author": "maoxian <maoxianxiang@infinite.net.cn>",
   "license": "MIT",
   "dependencies": {
+    "ejs": "^3.0.1",
     "koa": "^2.11.0",
     "koa-router": "^7.4.0",
+    "koa-views": "^6.2.1",
     "nodemon": "^2.0.2"
   }
 }
