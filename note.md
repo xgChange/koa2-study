@@ -37,3 +37,31 @@ app.use(
   })
 )
 ```
+
+## koa-bodyparser
+
+获取 post 提交的数据
+
+```
+ 1. 使用原生封装的postData
+  const { getPostData } = require("./module/common")
+
+  let postData = await getPostData(ctx)
+    if (postData) {
+      ctx.body = postData
+    } else {
+      ctx.body = "无数据"
+    }
+
+ 2. 使用koa-bodyparser
+  app.use(bodyParser())
+
+```
+
+## 静态资源中间件 koa-static
+
+```
+  1. 使用koa-static
+  app.use(serve(__dirname + '/static'));
+  相当于去__dirname/static下去找静态资源，然后引用直接/xxx.js就行了
+```
