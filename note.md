@@ -80,3 +80,16 @@ app.use(async function(ctx) {
   app.use(serve(__dirname + '/static'));
   相当于去__dirname/static下去找静态资源，然后引用直接/xxx.js就行了
 ```
+
+## cookie 和 session 的使用
+
+1. koa 中设置 cookie 的值 ctx.cookies.set(name, value)
+2. koa-session
+
+```javascript
+/*
+  1. npm install koa-session
+  2. const session = require('koa-session)
+  3. 配置中间件
+*/
+```

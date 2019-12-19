@@ -4,10 +4,23 @@ const bodyParser = require("koa-bodyparser")
 const static = require("koa-static")
 const render = require("koa-art-template")
 const path = require("path")
+const session = require("koa-session")
 
 const app = new Koa()
 const router = new Router()
 const PORT = 3000
+
+app.keys = ["some secret hurr"] // cookie的签名
+const CONFIG = {
+  key: "koa:sess",
+  maxAge: 5000 /*cookie的过期时间 */,
+  autoCommit: true,
+  overwrite: true,
+  httpOnly: true,
+  signed: true,
+  rolling: false /*每次请求时强制设置cookie,重置cookie过期时间 */,
+  renew: false
+}
 
 render(app, {
   // 配置art-template
@@ -16,6 +29,7 @@ render(app, {
   debug: process.env.NODE_ENV !== "production"
 })
 
+app.use(session(CONFIG, app))
 app.use(bodyParser())
 app.use(static(__dirname + "/static"))
 
@@ -40,6 +54,7 @@ router
       name: "李四",
       html: "<h2>测试</h2>"
     }
+    ctx.session.user = "ff"
     await ctx.render("user", {
       msg
     })
@@ -48,6 +63,7 @@ router
     // 动态路由, 如果有多个传值可以写成： /newsId/newsId2  匹配成: {newsId: xx, newsId2: cc}
     // 获取动态路由的传参 ctx.params
     ctx.body = ctx.params
+    console.log(ctx.session.user)
   })
   .post("/api/login", async ctx => {
     ctx.body = ctx.request.body
