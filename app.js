@@ -1,18 +1,21 @@
 const Koa = require("koa")
 const Router = require("koa-router")
-const views = require("koa-views")
 const bodyParser = require("koa-bodyparser")
 const static = require("koa-static")
+const render = require("koa-art-template")
+const path = require("path")
 
 const app = new Koa()
 const router = new Router()
 const PORT = 3000
 
-app.use(
-  views(__dirname + "/views", {
-    extension: "ejs"
-  })
-)
+render(app, {
+  // 配置art-template
+  root: path.join(__dirname, "views"),
+  extname: ".html",
+  debug: process.env.NODE_ENV !== "production"
+})
+
 app.use(bodyParser())
 app.use(static(__dirname + "/static"))
 
@@ -33,8 +36,12 @@ router
   .get("/", async ctx => {
     // 获取get 传值
     /* 获取get传值  ctx.query,  ctx.queryString, ctx.request.url */
-    await ctx.render("index", {
-      name: "李四"
+    let msg = {
+      name: "李四",
+      html: "<h2>测试</h2>"
+    }
+    await ctx.render("user", {
+      msg
     })
   })
   .get("/newscontent/:newsId", async ctx => {
@@ -43,7 +50,6 @@ router
     ctx.body = ctx.params
   })
   .post("/api/login", async ctx => {
-    console.log(ctx.request.body)
     ctx.body = ctx.request.body
   })
 

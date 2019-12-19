@@ -18,7 +18,7 @@ app.use(async (ctx, next) => {
 // 顺序： 中间件1-中间件2-回调2-回调1
 ```
 
-## ejs 模板引擎的使用
+## 模板引擎的使用
 
 ```javascript
 /*
@@ -36,6 +36,21 @@ app.use(
     }
   })
 )
+
+/*
+  1. npm install --save art-template
+  2. npm install --save koa-art-template
+*/
+
+render(app, {
+  root: path.join(__dirname, "view"),
+  extname: ".art",
+  debug: process.env.NODE_ENV !== "production"
+})
+
+app.use(async function(ctx) {
+  await ctx.render("user")
+})
 ```
 
 ## koa-bodyparser
